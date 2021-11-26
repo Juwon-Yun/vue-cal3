@@ -3,6 +3,12 @@ import { createStore } from 'vuex'
 const store = createStore({
     state(){
         return {
+            selectedDate : null,
+            showAllDayEvents: 0,  
+            shortEventsOnMonthView: false,
+            showEventCreationDialog: false,
+            changeTheme : false,
+            changeLang : false,
             data :[
                 {
                 start: '2021-11-22',
@@ -14,7 +20,7 @@ const store = createStore({
               },
               {
                 start: new Date(2021, 11 - 1, 24, 10, 30),
-                end: new Date(2021, 11 - 1, 24, 10, 30),
+                end: new Date(2021, 11 - 1, 24, 15, 30),
                 title: '<h1 style="text-decoration-line: line-through;" >쇼핑하기</h1>',
                 content: '쇼핑쇼핑쇼핑쇼핑ㅅㅍ<i class="fa fa-arrow-left"></i>',
                 class: 'leisure'
@@ -54,6 +60,11 @@ const store = createStore({
         }
     },
     mutations :{
+        // Send Date
+        sendselectDate(state, event){
+          state.selectedDate = event
+          return this.selectedDate;
+        },
         addData(){},
         deleteData(){},
         updateData(){},

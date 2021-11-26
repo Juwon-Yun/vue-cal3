@@ -3,9 +3,11 @@
 <div class="leftDiv">
   <div class="scheduler">
     <DatePicker/>
+    <br>
+    <br>
+    <br>
   <input type="button" id="changeTheme" value="테마바꾸기">
   <input type="button" id="changeLang" value="언어바꾸기">
-
   </div>
   <div class="filter">
      <Filter/>
@@ -23,9 +25,7 @@
 <!-- <button @click="showAllDayEvents = (showAllDayEvents + 1) % 3">
   :show-all-day-events="{{ ["'short'", 'true', 'false'][showAllDayEvents] }}"
 </button> -->
-<!-- <button @click="customEventCreation">
-    button
-</button> -->
+
 <!-- <vue-cal small
           :time-from="10 * 60"
           :time-to="16 * 60"
@@ -50,31 +50,8 @@ export default {
     WeekCalendar,
     Filter,
   },
-  methods: {
-    clickDate(e){
-      console.log(e)
-    },
-    alertMsg(){
-      alert("모달창눌렀니")
-    },
-    newDate(){
-      return new Date()
-    },
-    customEventCreation () {
-    const dateTime = prompt('Create event on (YYYY-MM-DD HH:mm)', '2021-11-25 13:15')
 
-    // Check if date format is correct before creating event.
-    if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(dateTime)) {
-      this.$refs.vuecal.createEvent(
-        // Formatted start date and time or JavaScript Date object.
-        dateTime,
-        // Event duration in minutes (Integer).
-        120,
-        // Custom event props (optional).
-        { title: 'New Event', content: 'yay! 🎉', class: 'blue-event' }
-      )
-      } else if (dateTime) alert('Wrong date format.')
-    },
+  methods: {
 
     onEventCreate (event, deleteEventFunction) {
       this.selectedEvent = event
@@ -95,14 +72,9 @@ export default {
   },
   data() {
     return {
-       selectedDate : null,
-       showAllDayEvents: 0,
-       shortEventsOnMonthView: false,
-       eventsCssClasses: ['leisure', 'sport', 'health'],
-       showEventCreationDialog: false,
-       changeTheme : false,
-       changeLang : false,
+       
       // modal https://kr.vuejs.org/v2/examples/modal.html
+
     }
   },
   // watch랑 updated랑 store 이름
@@ -129,11 +101,13 @@ export default {
   width: 15vw;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 
 .filter{
   color : #eee;
+  font-size: 20px;
+  margin-top: 250px;
 }
 
 .filter > ul{
@@ -143,6 +117,7 @@ export default {
 }
 
 .rightDiv{
+  padding-top: 70px;
   width: 70vw;
 }
 </style>

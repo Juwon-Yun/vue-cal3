@@ -1,4 +1,6 @@
 <template>
+
+<div>
   <vue-cal 
       small
       locale='ko'
@@ -7,7 +9,7 @@
       :time-to="23 * 60"
       active-view="week"
       :disable-views="['years', 'year', 'month', 'day']"
-      :selected-date="selectedDate"
+      :selected-date=$store.state.selectedDate
       @cell-dblclick="alertMsg()"
       resize-x
       :events=$store.state.data
@@ -19,6 +21,11 @@
       style="width: 100% ;height: 100%"
       >
     </vue-cal>
+    <button @click="customEventCreation" style="color : #eee;">
+        button
+    </button>
+</div>
+
 </template>
 
 <script>
@@ -32,9 +39,32 @@ export default {
     components:{
         VueCal,
     },
+    methods: {
+        clickDate(e){
+            console.log(e)
+        },
+
+        alertMsg(){
+            alert("모달창눌렀니")
+        },
+        customEventCreation () {
+            const dateTime = prompt('Create event on (YYYY-MM-DD HH:mm)', '2021-11-25 11:15')
+
+            // Check if date format is correct before creating event.
+            if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(dateTime)) {
+                this.$refs.vuecal.createEvent(
+                    // Formatted start date and time or JavaScript Date object.
+                    dateTime,
+                    // Event duration in minutes (Integer).
+                    120,
+                    // Custom event props (optional).
+                    { title: 'New Event', content: 'yay! 🎉', class: 'blue-event' }
+                )
+            } else if (dateTime) alert('Wrong date format.')
+      },
+    },
     data() {
         return {
-            selectedDate : null,
             showAllDayEvents: 0,
             shortEventsOnMonthView: false,
             eventsCssClasses: ['leisure', 'sport', 'health'],
