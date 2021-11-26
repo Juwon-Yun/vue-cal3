@@ -1,0 +1,43 @@
+<template>
+  <vue-cal 
+    xsmall
+    locale="ko"
+    :time="false"
+    hide-view-selector
+    active-view="month"
+    :disable-views="['week', 'day']"
+    @cell-focus="selectedDate = $event"
+    :events=$store.state.data
+    class="vuecal--blue-theme vuecal--rounded-theme "
+    style="width: 100% ;height: 280px">
+  </vue-cal>
+</template>
+
+<script>
+import VueCal from 'vue-cal'
+import 'vue-cal/dist/vuecal.css'
+import 'vue-cal/dist/drag-and-drop.js'
+import '../../node_modules/vue-cal/dist/i18n/ko.js'
+import '../assets/css/blackTheme.css';
+
+export default {
+    components : {
+        VueCal,
+    },
+    data() {
+    return {
+       selectedDate : null,
+       showAllDayEvents: 0,
+       shortEventsOnMonthView: false,
+       showEventCreationDialog: false,
+       changeTheme : false,
+       changeLang : false,
+      // modal https://kr.vuejs.org/v2/examples/modal.html
+    }
+    }
+}
+</script>
+
+<style>
+
+</style>
