@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 
-const store = createStore({
+const scheduler = createStore({
+    namespaced : true,
     state(){
         return {
             selectedDate : null,
@@ -71,4 +72,4 @@ const store = createStore({
     },
 })
 
-export default store;
+export default scheduler;

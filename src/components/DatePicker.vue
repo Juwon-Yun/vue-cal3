@@ -6,8 +6,8 @@
     hide-view-selector
     active-view="month"
     :disable-views="['week', 'day']"
-    @cell-focus="$store.commit('sendselectDate', $event)"
-    :events=$store.state.data
+    @cell-focus="this.$store.commit('sendselectDate', $event)"
+    :events=this.$store.state.data
     class="vuecal--blue-theme vuecal--rounded-theme "
     style="width: 100% ;height: 280px">
   </vue-cal>

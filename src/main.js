@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import store from './store.js'
+import scheduler from './scheduler.js'
 
 let app = createApp(App);
 
-app.use(store).mount('#app')
+app.use(scheduler).mount('#app')

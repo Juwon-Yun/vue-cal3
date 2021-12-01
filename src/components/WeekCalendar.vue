@@ -9,10 +9,10 @@
       :time-to="23 * 60"
       active-view="week"
       :disable-views="['years', 'year', 'month', 'day']"
-      :selected-date=$store.state.selectedDate
+      :selected-date=this.$store.state.selectedDate
       @cell-dblclick="alertMsg()"
       resize-x
-      :events=$store.state.data
+      :events=this.$store.state.data
       :editable-events="{ title: true, drag: true, resize: true, delete: true, create: false }"
       :drag-to-create-threshold="0"
       ref="vuecal"
@@ -48,15 +48,15 @@ export default {
             alert("모달창눌렀니")
         },
         customEventCreation () {
-            const dateTime = prompt('Create event on (YYYY-MM-DD HH:mm)', '2021-11-25 11:15')
+            const dateTime = prompt('Create event on (YYYY-MM-DD HH:mm)', '2021-11-27 11:15')
 
             // Check if date format is correct before creating event.
             if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(dateTime)) {
                 this.$refs.vuecal.createEvent(
                     // Formatted start date and time or JavaScript Date object.
                     dateTime,
-                    // Event duration in minutes (Integer).
-                    120,
+                    // Event duration in minutes (Integer). 일정 기간
+                    360,
                     // Custom event props (optional).
                     { title: 'New Event', content: 'yay! 🎉', class: 'blue-event' }
                 )
