@@ -10,7 +10,7 @@
       active-view="week"
       :disable-views="['years', 'year', 'month', 'day']"
       :selected-date=this.$store.state.selectedDate
-      @cell-dblclick="alertMsg()"
+      @cell-dblclick="customEventCreation"
       resize-x
       :events=this.$store.state.data
       :editable-events="{ title: true, drag: true, resize: true, delete: true, create: false }"
@@ -24,8 +24,8 @@
     <button @click="customEventCreation" style="color : #eee;">
         button
     </button>
-</div>
 
+</div>
 </template>
 
 <script>
@@ -34,11 +34,25 @@ import 'vue-cal/dist/vuecal.css'
 import 'vue-cal/dist/drag-and-drop.js'
 import '../../node_modules/vue-cal/dist/i18n/ko.js'
 import '../assets/css/blackTheme.css';
+import '../assets/css/modal.css';
 
 export default {
+
     components:{
         VueCal,
     },
+
+    data() {
+        return {
+            showAllDayEvents: 0,
+            shortEventsOnMonthView: false,
+            eventsCssClasses: ['leisure', 'sport', 'health'],
+            showEventCreationDialog: false,
+            changeTheme : false,
+            changeLang : false,
+        }
+    },
+
     methods: {
         clickDate(e){
             console.log(e)
@@ -63,17 +77,7 @@ export default {
             } else if (dateTime) alert('Wrong date format.')
       },
     },
-    data() {
-        return {
-            showAllDayEvents: 0,
-            shortEventsOnMonthView: false,
-            eventsCssClasses: ['leisure', 'sport', 'health'],
-            showEventCreationDialog: false,
-            changeTheme : false,
-            changeLang : false,
-             // modal https://kr.vuejs.org/v2/examples/modal.html
-        }
-    },
+   
 }
 </script>
 

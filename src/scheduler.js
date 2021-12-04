@@ -66,7 +66,9 @@ const scheduler = createStore({
           state.selectedDate = event
           return this.selectedDate;
         },
-        addData(){},
+        addData(){
+          
+        },
         deleteData(){},
         updateData(){},
     },
