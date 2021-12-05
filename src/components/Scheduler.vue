@@ -1,4 +1,19 @@
 <template >
+
+<div class="black-bg" v-if="this.$store.state.isModal" @click="closeModal">
+  <div class="white-bg">
+      일정명 : <input type="text" placeholder="일정명을 입력하세요.">
+      내용 : <input type="text" placeholder="내용을 입력하세요.">
+      분류 : <select>
+        <option>야구</option>
+        <option>골프</option>
+        <option></option>
+      </select>
+      <input type="button" @click="setCallAddFunction" value="대근이가 추가한 이벤트">
+      <input type="button" value="모달창 닫기" class="closeModalBtn">
+  </div>
+</div>
+
 <div class="schedulerContainer">
 <div class="leftDiv">
   <div class="scheduler">
@@ -38,10 +53,10 @@
           @event-drag-create="showEventCreationDialog = true">
 </vue-cal> -->
 <script>
-
 import DatePicker from './DatePicker.vue'
 import WeekCalendar from './WeekCalendar.vue'
 import Filter from './Filter.vue'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'Scheduler',
@@ -52,6 +67,10 @@ export default {
   },
 
   methods: {
+    ...mapMutations({
+      closeModal : 'closeModal',
+      setCallAddFunction : 'setCallAddFunction',
+    }),
 
     onEventCreate (event, deleteEventFunction) {
       this.selectedEvent = event
@@ -120,4 +139,31 @@ export default {
   padding-top: 70px;
   width: 70vw;
 }
+
+.black-bg,
+.white-bg{
+    box-sizing: border-box;
+
+}
+.black-bg{
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.white-bg{
+    width: 50%;
+    height: 50vh;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+
 </style>

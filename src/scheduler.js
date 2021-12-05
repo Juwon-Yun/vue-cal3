@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 
 const scheduler = createStore({
     namespaced : true,
+
     state(){
         return {
             selectedDate : null,
@@ -10,6 +11,8 @@ const scheduler = createStore({
             showEventCreationDialog: false,
             changeTheme : false,
             changeLang : false,
+            isModal : false,
+            callAddFunction : false,
             data :[
                 {
                 start: '2021-11-22',
@@ -27,11 +30,11 @@ const scheduler = createStore({
                 class: 'leisure'
               },
               {
-                start: '2021-11-25 14:00',
-                end: '2021-11-25 17:00',
+                start: '2021-12-01 11:15',
+                end: '2021-12-03 17:00',
                 title: '존과 함께하는 골프레슨',
                 content: '골프 코스있는날',
-                class: 'golf'
+                class: 'golf',
               },
               {
               start: '2021-11-26 14:00',
@@ -61,16 +64,37 @@ const scheduler = createStore({
         }
     },
     mutations :{
-        // Send Date
-        sendselectDate(state, event){
-          state.selectedDate = event
-          return this.selectedDate;
-        },
-        addData(){
-          
-        },
-        deleteData(){},
-        updateData(){},
+      sendselectDate(state, event){
+        state.selectedDate = event
+        return this.selectedDate;
+      },
+
+      addData(){
+        
+      },
+
+      deleteData(){},
+
+      updateData(){},
+
+      setModal(state){
+        state.isModal = true
+      },
+      closeModal(state, e){
+        for(let i in e.target.classList){
+          if(e.target.classList[i] === 'black-bg' || e.target.classList[i] === 'closeModalBtn'){
+            state.isModal = false
+          }else{
+            return
+          }
+        }
+      },
+      setCallAddFunction(state){
+        state.callAddFunction = !state.callAddFunction
+        if(state.callAddFunction) {
+          state.isModal = false
+        }
+      }
     },
 })
 
