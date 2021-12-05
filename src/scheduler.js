@@ -64,6 +64,9 @@ const scheduler = createStore({
         }
     },
     mutations :{
+      showData(state){
+        console.log(state.addEventData)
+      },
       sendselectDate(state, event){
         state.selectedDate = event
         return this.selectedDate;
@@ -89,7 +92,8 @@ const scheduler = createStore({
           }
         }
       },
-      setCallAddFunction(state){
+      setCallAddFunction(state, e){
+        console.log(e)
         state.callAddFunction = !state.callAddFunction
         if(state.callAddFunction) {
           state.isModal = false

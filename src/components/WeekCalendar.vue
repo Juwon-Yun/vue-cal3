@@ -22,9 +22,9 @@
       >
     </vue-cal>
       <!-- :drag-to-create-threshold="0" -->
-    <button @click="customEventCreation" style="color : #eee;">
+    <!-- <button @click="customEventCreation" style="color : #eee;">
         button
-    </button>
+    </button> -->
 
 </div>
 </template>
@@ -72,26 +72,28 @@ export default {
         },
         
         customEventCreation () {
-        const dateTime ='2021-11-29 11:15'
+            const dateTime ='2021-11-29 11:15'
 
-        // Check if date format is correct before creating event.
-        if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(dateTime)) {
-            this.$refs.vuecal.createEvent(
-                // Formatted start date and time or JavaScript Date object.
-                dateTime,
-                // Event duration in minutes (Integer). 일정 기간
-                360,
-                // Custom event props (optional).
-                { title: 'New Event', content: 'yay! 🎉', class: 'blue-event' }
-            )
-        } else if (dateTime) alert('Wrong date format.')
+            // Check if date format is correct before creating event.
+            if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(dateTime)) {
+                this.$refs.vuecal.createEvent(
+                    // Formatted start date and time or JavaScript Date object.
+                    dateTime,
+                    // Event duration in minutes (Integer). 일정 기간
+                    360,
+                    // Custom event props (optional).
+                    { title: 'New Event', content: 'yay! 🎉', class: 'blue-event' }
+                )
+        } else if (dateTime) alert('옳바른 날짜 입력이 아닙니다.')
       },
     },
-   watch : {
-       '$store.state.callAddFunction'() {
-           this.customEventCreation()
-       }
-   }
+    watch : {
+        '$store.state.callAddFunction'(newVal) {
+            if(newVal){
+                    this.customEventCreation()
+            } 
+        }
+    }
 }
 </script>
 

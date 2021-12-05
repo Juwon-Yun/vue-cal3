@@ -1,7 +1,7 @@
 <template >
 
 <div class="black-bg" v-if="this.$store.state.isModal" @click="closeModal">
-  <div class="white-bg">
+  <div class="white-bg" >
       일정명 : <input type="text" placeholder="일정명을 입력하세요.">
       내용 : <input type="text" placeholder="내용을 입력하세요.">
       분류 : <select>
@@ -9,6 +9,7 @@
         <option>골프</option>
         <option></option>
       </select>
+      <input type="button" @click="showData" value="show Value btn">
       <input type="button" @click="setCallAddFunction" value="대근이가 추가한 이벤트">
       <input type="button" value="모달창 닫기" class="closeModalBtn">
   </div>
@@ -68,6 +69,7 @@ export default {
 
   methods: {
     ...mapMutations({
+      showData : 'showData',
       closeModal : 'closeModal',
       setCallAddFunction : 'setCallAddFunction',
     }),
@@ -79,6 +81,7 @@ export default {
 
       return event
     },
+
     cancelEventCreation () {
       this.closeCreationDialog()
       this.deleteEventFunction()
