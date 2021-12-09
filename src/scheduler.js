@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import moment from 'moment' // eslint-disable-line no-unused-vars
 
 const scheduler = createStore({
     namespaced : true,
@@ -13,6 +14,19 @@ const scheduler = createStore({
             changeLang : false,
             isModal : false,
             callAddFunction : false,
+            
+            // modal variables
+            flagStartDate : false,
+            flagEndDate : false,
+
+            autoScrollData1 : '',
+            autoScrollData2 : '',
+            endDate : '',
+            startDate :'',
+            eventTitle : '',
+            eventContent : '',
+            selectedClass : '',
+
             data :[
                 {
                 start: '2021-11-22',
@@ -64,21 +78,15 @@ const scheduler = createStore({
         }
     },
     mutations :{
+      
       showData(state){
         console.log(state.addEventData)
       },
+
       sendselectDate(state, event){
         state.selectedDate = event
-        return this.selectedDate;
+        return state.selectedDate;
       },
-
-      addData(){
-        
-      },
-
-      deleteData(){},
-
-      updateData(){},
 
       setModal(state){
         state.isModal = true
@@ -100,7 +108,37 @@ const scheduler = createStore({
         if(state.callAddFunction) {
           state.isModal = false
         }
-      }
+      },
+      getStartDate(state, e){
+        console.log(e)
+        state.flagStartDate = !state.flagStartDate
+        state.startDate = e.format('YYYY-MM-DD')
+      },
+      getEndDate(state,e){
+        console.log(e)
+        state.flagEndDate = !state.flagEndDate
+        state.endDate = e.format('YYYY-MM-DD')
+      },
+
+      createEventUseModal(state){
+        if( state.selectedClass === '골프' ){
+          state.selectedClass = 'golf'
+        }
+        // let startTime = moment().format('YYYY-MM-DD HH:mm')
+        // let endTime = new Date(2021, 12 - 1, 9, 19, 30).format('YYYY-MM-DD HH:mm')
+        const arr ={
+          id : 'a002',
+          start : state.startDate +' '+ state.autoScrollData1,
+          end : state.endDate + ' ' + state.autoScrollData2,
+          title : state.eventTitle,
+          content : state.eventContent,
+          class : state.selectedClass,
+        }
+        state.data.push(arr)
+        console.log('data => ', state.data )
+        state.isModal = false
+      },
+
     },
 })
 

@@ -1,26 +1,13 @@
 <template>
-<div class="black-bg" v-if="this.$store.state.isModal" @click="closeModal">
-  <div class="white-bg" >
-      일정명 : <input type="text" placeholder="일정명을 입력하세요.">
-      내용 : <input type="text" placeholder="내용을 입력하세요.">
-      분류 : <select>
-        <option>야구</option>
-        <option>골프</option>
-        <option></option>
-      </select>
-      <input type="button" @click="showData" value="show Value btn">
-      <input type="button" @click="setCallAddFunction" value="대근이가 추가한 이벤트">
-      <input type="button" value="모달창 닫기" class="closeModalBtn">
-  </div>
-</div>
+
 
 <div>
   <vue-cal 
       small
       locale='ko'
       hide-view-selector
-      :time-from="7 * 60"
-      :time-to="23 * 60"
+      :time-from="6 * 60"
+      :time-to="24 * 60"
       active-view="week"
       :disable-views="['years', 'year', 'month', 'day']"
       @cell-dblclick="customEventCreation($event)"
@@ -32,7 +19,7 @@
       @event-delete="deleteEventFunction"
       @event-duration-change="resizeUpdateEventFunction"
       @event-drop="dropUpdateEventFunction"
-
+      
       :selected-date=this.$store.state.selectedDate
       ref="vuecal"
       :drag-to-create-threshold="20"
@@ -40,10 +27,6 @@
       :show-all-day-events="['short', true, false][showAllDayEvents]"
       >
     </vue-cal>
-      <!-- :event-delete="alertMsg()" -->
-    <button @click="customEventCreation" style="color : #eee;">
-        button
-    </button>
     
 </div>
 </template>
@@ -74,6 +57,8 @@ export default {
             changeTheme : false,
             changeLang : false,
             selectedEvent : '',
+
+            autoScrollData1: '08:40',
         }
     },
 
@@ -86,27 +71,17 @@ export default {
         }), 
 
         deleteEventFunction(e){
-            console.log('deleteEvent', e)
-            console.log(e.id)
-
             let copy = [...this.$store.state.data];
-
             for(let i = 0; i<copy.length; i++){
-
                 if(e.id === copy[i].id){
                     copy.splice(i,1);
                 }
             }
-
             this.$store.state.data = copy;
         },
         
         dropUpdateEventFunction(e){
             let copy = [...this.$store.state.data];
-            
-            // console.log(e)
-            // console.log(e.event.start)
-            // console.log(e.event.end)
             let momentedStartTime = e.event.start.format('YYYY-MM-DD HH:mm')
             let momentedEndTime = e.event.end.format('YYYY-MM-DD HH:mm')
 
@@ -119,33 +94,16 @@ export default {
 
         },
         resizeUpdateEventFunction(e){
-            // console.log(e)
-            // console.log(e.event.end)
             let momentedEndTime=e.event.end.format('YYYY-MM-DD HH:mm')
             let copy = [...this.$store.state.data];
+
             for(let i = 0; i < copy.length; i++){
                 if(e.event.id === copy[i].id){
                     copy[i].end = momentedEndTime
                 }
             }
         },
-        onEventCreate (event, deleteEventFunction) {
-            console.log(event)
-            this.selectedEvent = event
-            // this.showEventCreationDialog = true
-            this.deleteEventFunction = deleteEventFunction
 
-            return event
-        },
-
-        clickDate(e){
-            console.log(e)
-        },
-
-        alertMsg(){
-            alert("모달창눌렀니")
-        },
-        
         customEventCreation (e) {
             e = e.format('YYYY-MM-DD HH:mm')
             let nowDate = moment().format('YYYY-MM-DD HH:mm')
@@ -167,12 +125,12 @@ export default {
       },
     },
     watch : {
-        '$store.state.data'() {
-
+        '$store.state.data.length'() {
         }
     }
 }
 </script>
 
 <style>
+
 </style>
