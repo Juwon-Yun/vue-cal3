@@ -9,22 +9,26 @@
       :time-from="7 * 60"
       :time-to="23 * 60"
       active-view="week"
+
       :disable-views="['years', 'year', 'month', 'day']"
       :selected-date=this.$store.state.selectedDate
-      @cell-dblclick="setModal"
+
+      @cell-dblclick="customEventCreation($event)"
+      @cell-click="setModal"
+
       resize-x
       :events=this.$store.state.data
-      :editable-events="{ title: true, drag: true, resize: false, delete: true, create: false }"
+      :editable-events="{ title: true, drag: true, resize: true, delete: true, create: false }"
       ref="vuecal"
-      class="vuecal--dark-theme"
+      :drag-to-create-threshold="20"
+      class="vuecal--dark-theme vuecal--full-height-delete"
       style="width: 100% ;height: 100%"
       :show-all-day-events="['short', true, false][showAllDayEvents]"
       >
     </vue-cal>
-      <!-- :drag-to-create-threshold="0" -->
-    <!-- <button @click="customEventCreation" style="color : #eee;">
+    <button @click="customEventCreation" style="color : #eee;">
         button
-    </button> -->
+    </button>
 
 </div>
 </template>
@@ -36,6 +40,8 @@ import 'vue-cal/dist/vuecal.css'
 import 'vue-cal/dist/drag-and-drop.js'
 import '../../node_modules/vue-cal/dist/i18n/ko.js'
 import '../assets/css/blackTheme.css';
+import moment from 'moment' // eslint-disable-line no-unused-vars
+
 
 export default {
     name: 'WeekCalendar',
@@ -63,6 +69,10 @@ export default {
             closeModal : 'closeModal',
         }),
 
+        showDate(e){
+            console.log(e)
+        },
+
         clickDate(e){
             console.log(e)
         },
@@ -71,27 +81,31 @@ export default {
             alert("모달창눌렀니")
         },
         
-        customEventCreation () {
-            const dateTime ='2021-11-29 11:15'
+        customEventCreation (e) {
+            e = e.format('YYYY-MM-DD HH:mm')
 
-            // Check if date format is correct before creating event.
-            if (/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(dateTime)) {
-                this.$refs.vuecal.createEvent(
-                    // Formatted start date and time or JavaScript Date object.
-                    dateTime,
-                    // Event duration in minutes (Integer). 일정 기간
-                    360,
-                    // Custom event props (optional).
-                    { title: 'New Event', content: 'yay! 🎉', class: 'blue-event' }
-                )
-        } else if (dateTime) alert('옳바른 날짜 입력이 아닙니다.')
+            console.log('e_custom',e)
+
+            const e_dateTime = prompt('Create event on (YYYY-MM-DD HH:mm)', e)
+            const arr = {
+                start : e_dateTime,
+                end : e_dateTime,
+                title : '그냥제목',
+                content : '그냥컨텐츠',
+                class : 'golf',
+            }
+            this.$store.state.data.push(arr)
+
+            if(!e_dateTime){
+                alert('일정 입력이 취소되었습니다.')
+            }
       },
     },
     watch : {
-        '$store.state.callAddFunction'(newVal) {
-            if(newVal){
-                    this.customEventCreation()
-            } 
+        '$store.state.callAddFunction'() {
+            // if(newVal){
+            //         this.customEventCreation()
+            // } 
         }
     }
 }

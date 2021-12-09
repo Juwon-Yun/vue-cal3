@@ -26,15 +26,17 @@ export default {
         VueCal,
     },
     data() {
-    return {
-       showAllDayEvents: 0,
-       shortEventsOnMonthView: false,
-       showEventCreationDialog: false,
-       changeTheme : false,
-       changeLang : false,
-      // modal https://kr.vuejs.org/v2/examples/modal.html
-    }
-    }
+      return {
+        showAllDayEvents: 0,
+        shortEventsOnMonthView: false,
+        showEventCreationDialog: false,
+        changeTheme : false,
+        changeLang : false,
+        // modal https://kr.vuejs.org/v2/examples/modal.html
+      }
+    },
+    methods: {
+    },
 }
 </script>
 

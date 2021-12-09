@@ -83,6 +83,7 @@ const scheduler = createStore({
       setModal(state){
         state.isModal = true
       },
+      
       closeModal(state, e){
         for(let i in e.target.classList){
           if(e.target.classList[i] === 'black-bg' || e.target.classList[i] === 'closeModalBtn'){
@@ -92,6 +93,7 @@ const scheduler = createStore({
           }
         }
       },
+
       setCallAddFunction(state, e){
         console.log(e)
         state.callAddFunction = !state.callAddFunction
