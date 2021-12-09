@@ -6,7 +6,7 @@
       small
       locale='ko'
       hide-view-selector
-      :time-from="6 * 60"
+      :time-from="0 * 60"
       :time-to="24 * 60"
       active-view="week"
       :disable-views="['years', 'year', 'month', 'day']"
@@ -57,8 +57,6 @@ export default {
             changeTheme : false,
             changeLang : false,
             selectedEvent : '',
-
-            autoScrollData1: '08:40',
         }
     },
 

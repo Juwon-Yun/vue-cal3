@@ -1,18 +1,8 @@
 <template >
   <div class="black-bg" v-if="this.$store.state.isModal" @click="closeModal">
-  <div class="white-bg" >
-      <div>
-        <input type="text" placeholder="일정명을 입력하세요." v-model="this.$store.state.eventTitle">
-        <input type="text" placeholder="내용을 입력하세요." v-model="this.$store.state.eventContent">
-        
-        <select v-model="this.$store.state.selectedClass">
-          <option>야구</option>
-          <option>골프</option>
-          <option>헬스</option>
-        </select>
-        <input type="text" placeholder="시작일" @click="this.$store.state.flagStartDate = true" v-model="this.$store.state.startDate" readonly>
-        
-        <vue-cal v-if="this.$store.state.flagStartDate === true" 
+  <div class="white-bg">
+      <div class="white-bg-left">
+        <vue-cal 
           xsmall
           locale="ko"
           :time="false"
@@ -21,13 +11,9 @@
           @cell-click="this.getStartDate"
           :disable-views="['years','year','week', 'day']"
           class="vuecal--blue-theme vuecal--rounded-theme startDatePicker"
-          style="width: 300px ;height: 280px">
+          style="width: 100% ;height: 100%">
         </vue-cal>
-        <vue-timepicker auto-scroll v-model="this.$store.state.autoScrollData1"></vue-timepicker>
-
-
-        <input type="text" placeholder="종료일" @click="this.$store.state.flagEndDate = true" v-model="this.$store.state.endDate" readonly>
-        <vue-cal v-if="this.$store.state.flagEndDate === true" 
+        <!-- <vue-cal
           xsmall
           locale="ko"
           :time="false"
@@ -37,18 +23,46 @@
           :disable-views="['years','year','week', 'day']"
           class="vuecal--blue-theme vuecal--rounded-theme startDatePicker"
           style="width: 300px ;height: 280px">
-        </vue-cal>
-        <vue-timepicker auto-scroll v-model="this.$store.state.autoScrollData2"></vue-timepicker>
-
+        </vue-cal> -->
       </div>
 
-      <div>
-        <button style="background-color: #2C2F3B;" class="closeModalBtn" @click="this.createEventUseModal">
-        <i  class="fab fa-apple" style="color: #eee; font-size:50px "></i>
-        </button>
-        <br>
-        <input type="button" value="모달창 닫기" class="closeModalBtn">
-      </div>    
+      <div class="white-bg-right">
+
+        <input type="text" style="width: 100%" placeholder="Enter the Title..." v-model="this.$store.state.eventTitle">
+        <input type="text" style="width: 100%; height : 90px;" placeholder="Enter the Detail..." v-model="this.$store.state.eventContent">
+        
+        <input style="width: 48%" type="text" placeholder="Start Date..." @click="this.$store.state.flagStartDate = true" v-model="this.$store.state.startDate" readonly>
+        <input style="width: 49%" type="text" placeholder="End Date..." @click="this.$store.state.flagEndDate = true" v-model="this.$store.state.endDate" readonly>
+        
+        <div style="display: flex;" class="timePicker">
+          <vue-timepicker auto-scroll v-model="this.$store.state.autoScrollData1"></vue-timepicker>
+          <vue-timepicker auto-scroll v-model="this.$store.state.autoScrollData2"></vue-timepicker>
+        </div>
+
+        <div class="rightInput">
+          <select v-model="this.$store.state.selectedClass">
+            <option>야구</option>
+            <option>골프</option>
+            <option>헬스</option>
+          </select>
+
+          <input type="checkbox" name="" id="">
+          <input type="checkbox" name="" id="">
+          <input type="checkbox" name="" id="">
+
+          <button>공통</button>
+          <button>개인</button>
+          <button>공지</button>
+          <button>긴급</button>
+          <button>휴가</button>
+          <button>기타</button>
+
+          <input type="button" value="CANCEL" class="closeModalBtn" id="cancelBtn">
+          <input type="button" value="CREATE" @click="this.createEventUseModal" id="createBtn" class="closeModalBtn">
+        </div>
+      
+      </div>
+
   </div>
 </div>
 
@@ -76,6 +90,7 @@
 </template>
 
 <script>
+
 // npm install vue3-timepicker --save
 
 import DatePicker from './DatePicker.vue'
@@ -151,7 +166,6 @@ export default {
   width: 15vw;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
 }
 
 .filter{
@@ -187,20 +201,65 @@ export default {
     align-items: center;
 }
 .white-bg{
-    width: 30%;
-    height: 50vh;
-    background: white;
+    width: 40%;
+    height: 40%;
+    background: #414556;
     border-radius: 13px;
     padding: 20px;
     display: flex;
-    flex-direction: column;
 }
 .white-bg > *{
   height: 100%;
 }
 
 .startDatePicker{
-  position: absolute;
-  left: 60%;
+  position: relative;
+}
+.vuecal__weekdays-headings,
+.vuecal__all-day {
+  padding-right : 0px;
+}
+.white-bg-right{
+  padding: 10px;
+}
+.white-bg-left{
+  padding: 10px;
+}
+.white-bg-right > input,
+.rightInput > input{
+  background-color : #2C2F3B;
+  border : none;
+  margin :3px;
+  padding: 8px;
+  border-radius: 8px;
+  color : #999999;
+}
+.rightInput {
+  display: flex;
+}
+.rightInput > button {
+  width: 40%;
+  color : #eee;
+}
+.vue__time-picker{
+  width : 49%;
+}
+
+.vue__time-picker input.vue__time-picker-input {
+  width : 98%;
+  background-color : #2C2F3B;
+  border: none;
+  border-radius: 8px;
+  margin: 3px;
+}
+
+#cancelBtn{
+  background-color: #FF5C5C;  
+  color : #eee;
+}
+
+#createBtn{
+  background-color: #FF8906;
+  color : #eee;
 }
 </style>
