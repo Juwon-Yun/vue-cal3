@@ -1,20 +1,5 @@
 <template >
 
-<div class="black-bg" v-if="this.$store.state.isModal" @click="closeModal">
-  <div class="white-bg" >
-      일정명 : <input type="text" placeholder="일정명을 입력하세요.">
-      내용 : <input type="text" placeholder="내용을 입력하세요.">
-      분류 : <select>
-        <option>야구</option>
-        <option>골프</option>
-        <option></option>
-      </select>
-      <input type="button" @click="showData" value="show Value btn">
-      <input type="button" @click="setCallAddFunction" value="대근이가 추가한 이벤트">
-      <input type="button" value="모달창 닫기" class="closeModalBtn">
-  </div>
-</div>
-
 <div class="schedulerContainer">
 <div class="leftDiv">
   <div class="scheduler">
@@ -74,13 +59,6 @@ export default {
       setCallAddFunction : 'setCallAddFunction',
     }),
 
-    onEventCreate (event, deleteEventFunction) {
-      this.selectedEvent = event
-      this.showEventCreationDialog = true
-      this.deleteEventFunction = deleteEventFunction
-
-      return event
-    },
 
     cancelEventCreation () {
       this.closeCreationDialog()
