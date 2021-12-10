@@ -10,7 +10,6 @@
       :time-to="24 * 60"
       active-view="week"
       :disable-views="['years', 'year', 'month', 'day']"
-      @cell-dblclick="customEventCreation($event)"
       resize-x
       :editable-events="{ title: true, drag: true, resize: true, delete: true, create: false }"
       :events=this.$store.state.data
@@ -52,7 +51,7 @@ export default {
         return {
             showAllDayEvents: 0,
             shortEventsOnMonthView: false,
-            eventsCssClasses: ['leisure', 'sport', 'health'],
+            eventsCssClasses: ['common', 'individual', 'notice', 'Emergency', 'vacation', 'note'],
             showEventCreationDialog: false,
             changeTheme : false,
             changeLang : false,

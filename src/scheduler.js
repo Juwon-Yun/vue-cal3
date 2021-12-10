@@ -26,6 +26,20 @@ const scheduler = createStore({
             eventTitle : '',
             eventContent : '',
             selectedClass : '',
+            clickedValue : '',
+
+            isAllDay : '',
+            deleteflag : '',
+            resizeflag : '',
+
+            buttonText : [
+              '공통',
+              '개인',
+              '공지',
+              '긴급',
+              '휴가',
+              '기타'
+            ],
 
             data :[
                 {
@@ -121,19 +135,58 @@ const scheduler = createStore({
       },
 
       createEventUseModal(state){
-        if( state.selectedClass === '골프' ){
-          state.selectedClass = 'golf'
+        switch (state.clickedValue) {
+          case '공통':
+            state.clickedValue = 'common'   
+            break;
+          case '개인':
+            state.clickedValue = 'individual'   
+            break;
+          case '공지':
+            state.clickedValue = 'notice'   
+            break;
+          case '긴급':
+            state.clickedValue = 'Emergency'   
+            break;
+          case '휴가':
+            state.clickedValue = 'vacation'   
+            break;
+          case '비고':
+            state.clickedValue = 'note'   
+            break;
         }
-        // let startTime = moment().format('YYYY-MM-DD HH:mm')
-        // let endTime = new Date(2021, 12 - 1, 9, 19, 30).format('YYYY-MM-DD HH:mm')
+
+        if(state.isAllDay !== true){
+          state.isAllDay = false
+        }
+
+        if(state.deleteflag === ''){
+          state.deleteflag = true
+        }else{
+          state.deleteflag = false
+        }
+
+        if(state.resizeflag === ''){
+          state.resizeflag = true
+        }else{
+          state.resizeflag = false
+        }
+
         const arr ={
           id : 'a002',
           start : state.startDate +' '+ state.autoScrollData1,
           end : state.endDate + ' ' + state.autoScrollData2,
           title : state.eventTitle,
           content : state.eventContent,
-          class : state.selectedClass,
+          class : state.clickedValue,
+          deletable: state.deleteflag,
+          resizable: state.resizeflag,
+          draggable: true,
+          allDay : state.isAllDay,
+
         }
+
+        console.log(arr)
         state.data.push(arr)
         console.log('data => ', state.data )
         state.isModal = false
