@@ -22,7 +22,7 @@
       :selected-date=this.$store.state.selectedDate
       ref="vuecal"
       :drag-to-create-threshold="20"
-      style="width: 100% ;height: 100%"
+      style="width: 100% ;height: 100%;"
       :show-all-day-events="['short', true, false][showAllDayEvents]"
       >
     </vue-cal>
@@ -129,5 +129,4 @@ export default {
 </script>
 
 <style>
-
 </style>

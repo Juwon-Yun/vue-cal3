@@ -2,6 +2,10 @@
    <h1>Filter</h1>
     <ul>
       <li> 
+        <input type="checkbox" id="all">
+        <label for="all">전체</label>
+      </li>
+      <li> 
         <input type="checkbox" id="common">
         <label for="common">공통</label>
       </li>
@@ -23,7 +27,7 @@
       </li>
       <li> 
         <input type="checkbox" id="note">
-        <label for="note">비고</label>
+        <label for="note">기타</label>
       </li>
     </ul>
 </template>

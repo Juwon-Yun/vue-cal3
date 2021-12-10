@@ -1,7 +1,7 @@
 <template >
   <div class="black-bg" v-if="this.$store.state.isModal" @click="closeModal">
   <div class="white-bg">
-      <div class="white-bg-left">
+      <div class="white-bg-left" >
         <vue-cal 
           xsmall
           locale="ko"
@@ -11,8 +11,10 @@
           @cell-click="this.getStartDate"
           :disable-views="['years','year','week', 'day']"
           class="vuecal--blue-theme vuecal--rounded-theme startDatePicker"
-          style="width: 100% ;height: 100%">
+          style="width: 300px ;height: 280px"
+          :style="{zIndex: startZIndex}">
         </vue-cal>
+        
         <vue-cal
           xsmall
           locale="ko"
@@ -21,8 +23,9 @@
           active-view="month"
           @cell-click="this.getEndDate"
           :disable-views="['years','year','week', 'day']"
-          class="vuecal--blue-theme vuecal--rounded-theme startDatePicker"
-          style="width: 300px ;height: 280px">
+          class="vuecal--blue-theme vuecal--rounded-theme endDatePicker"
+          style="width: 300px ;height: 280px"
+          :style="{zIndex: endZIndex}">
         </vue-cal>
       </div>
 
@@ -33,32 +36,46 @@
         
         <div class="timePicker">
           <span>
-            <input class="startDate" type="text" placeholder="Start Date..." @click="this.$store.state.flagStartDate = true" v-model="this.$store.state.startDate" readonly>
+            <input class="startDate" type="text" placeholder="Start Date..." @click="setStartIndex" v-model="this.$store.state.startDate" readonly>
           </span>
           <span>
-            <input class="endDate" type="text" placeholder="End Date..." @click="this.$store.state.flagEndDate = true" v-model="this.$store.state.endDate" readonly>
+            <input class="endDate" type="text" placeholder="End Date..." @click="setEndIndex" v-model="this.$store.state.endDate" readonly>
           </span>
         
-          <vue-timepicker auto-scroll v-model="this.$store.state.autoScrollData1"></vue-timepicker>
-          <vue-timepicker auto-scroll v-model="this.$store.state.autoScrollData2"></vue-timepicker>
+          <vue-timepicker :minute-range="[0, 6, [10, 30], 42, 50]"  drop-direction="auto"  auto-scroll v-model="this.$store.state.autoScrollData1"></vue-timepicker>
+          <vue-timepicker :minute-range="[0, 6, [10, 30], 42, 50]"  drop-direction="auto"  auto-scroll v-model="this.$store.state.autoScrollData2"></vue-timepicker>
         </div>
 
         <div class="rightInput">
-
           <input  type="checkbox" id="isAllDay" v-model="this.$store.state.isAllDay" >
           <label for="isAllDay" >IsAllDay...?</label>
           <input  type="checkbox" id="delete" v-model="this.$store.state.deleteflag" >
           <label for="delete" >Don't Delete...!</label>
           <input  type="checkbox" id="resize" v-model="this.$store.state.resizeflag" >
           <label for="resize" >Don't Resize...!</label>
+        </div>
 
-          <button v-for="(a, i) in this.$store.state.buttonText" :key="i" @click="filterClick" class="filter">{{a}}</button>
+        <div class="classification-btn" style="display : flex; ">
+          <div  v-for="(a, i) in this.$store.state.buttonText" :key="i" >
+          <button v-if="a === this.$store.state.clickedValue" style="color : #FF8906; width : 100%; " 
+                 @click="filterClick" class="filterBtn">
+          {{a}}</button>
 
-          <input type="button" value="CANCEL" class="closeModalBtn" id="cancelBtn">
-          <input type="button" value="CREATE" @click="this.createEventUseModal" id="createBtn" class="closeModalBtn">
+          <button v-else style="width : 100%; " 
+                 @click="filterClick" class="filterBtn">
+          {{a}}</button>
 
+
+          
+          </div>
+        </div>
+
+        <div class="finish-wrap">
+          <button id="cancelBtn" class="closeModalBtn" >CANCEL</button>
+          <button id="createBtn" class="closeModalBtn" @click="this.createEventUseModal" >CREATE</button>
         </div>
       
+
       </div>
 
   </div>
@@ -70,8 +87,9 @@
     <DatePicker/>
     <br>
     <br>
-  <i  style="color: #eee; font-size:50px " @click="this.$store.state.isModal=true" 
+  <i  style="color: #eee; font-size:50px " @click="this.setModalTrue" 
   class="fab fa-apple"></i>
+  <button @click="setValue" style="color : #eee;">모달창</button>
     <br>
   <input type="button" id="changeTheme" value="테마바꾸기">
   <input type="button" id="changeLang" value="언어바꾸기">
@@ -115,8 +133,11 @@ export default {
   },
   data() {
     return {
-     
+      startZIndex : 1,
+      endZIndex : 0,
     }
+  },
+  mounted() {
   },
   methods: {
     ...mapMutations({
@@ -126,30 +147,35 @@ export default {
       createEventUseModal : 'createEventUseModal',
       getStartDate : 'getStartDate',
       getEndDate : 'getEndDate',
+      setClickedValue : 'setClickedValue',
+      setFlagStartDate : 'setFlagStartDate',
+      setflagEndDate : 'setflagEndDate',
+      setModalTrue : 'setModalTrue',
     }),
-    
-    cancelEventCreation() {
-      this.closeCreationDialog()
-      this.deleteEventFunction()
-    },
-    
-    closeCreationDialog() {
-      this.showEventCreationDialog = false
-      this.selectedEvent = {}
-    },
 
     // 필터 클릭시 색 변경
     filterClick(e){
       if(e.type === 'click'){
-        let buttons = document.querySelectorAll('button.filter')
+        let buttons = document.querySelectorAll('button.filterBtn')
         for(let i = 0; i< buttons.length; i++){
           buttons[i].style.color = '#fff';
         }
         e.path[0].style.color = "#FF8906"
-        this.$store.state.clickedValue = e.target.innerHTML
+        this.setClickedValue(e.target.innerHTML)
       }
     },
-    
+
+    setStartIndex(){
+      this.endZIndex = 0
+      this.startZIndex = 1
+      this.setFlagStartDate(true)
+    },
+
+    setEndIndex(){
+      this.endZIndex = 1
+      this.startZIndex = 0
+      this.setflagEndDate(true)
+    },
   },
  
   watch: {
@@ -160,7 +186,7 @@ export default {
 
 </script>
 
-<style scope>
+<style scoped>
 *{
   font-size: 15px;
 }
@@ -168,6 +194,7 @@ export default {
 /* vw로 가변넓이  */
 .schedulerContainer{
   width: 100%;
+  height: calc(100vh - 70px);
   display: flex;
   justify-content: space-between;
   padding : 40px;
@@ -191,8 +218,13 @@ export default {
 }
 
 .rightDiv{
-  padding-top: 70px;
   width: 70vw;
+  overflow: scroll;
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
+}
+.rightDiv::-webkit-scrollbar {
+  display: none; 
 }
 
 .black-bg,
@@ -228,13 +260,11 @@ export default {
 }
 .white-bg-right{
   padding: 10px;
-  width: 100%;
-  /* display: flex; */
-  /* flex-direction: column; */
+  width: 60%;
 }
 .white-bg-left{
-  width : 50%;
-  padding: 10px;
+  width: 300px;
+  position: relative;
 }
 .titleInput{
   width: 100%;
@@ -248,6 +278,7 @@ export default {
   border-radius: 8px;
   padding: 8px;
   margin: 3px;
+  color : #fff;
 }
 .white-bg-right > input,
 .timePicker > input{
@@ -256,7 +287,7 @@ export default {
   margin :3px;
   padding: 8px;
   border-radius: 8px;
-  color : #999999;
+  color : #fff;
 }
 .startDate{
   background-color : #2C2F3B;
@@ -264,46 +295,67 @@ export default {
   margin :3px;
   padding: 8px;
   border-radius: 8px;
-  color : #999999;
+  color : #fff;
   width: 45%;
+  margin-right: 6px;
 }
 .endDate{
   background-color : #2C2F3B;
   border : none;
-  margin :3px;
+  margin :5px;
+  margin-right: 6px;
   padding: 8px;
   border-radius: 8px;
-  color : #999999;
+  color : #fff;
   width: 45%
 }
-
+.rightInput{
+  display: flex;
+  margin-bottom: 10px;
+}
 .rightInput > label{
-  color : #999999;
+  color : #fff;
 }
-.rightInput > input:checked{
-  background-color: #2C2F3B ;
+.filterBtn{
+  color: white;
+  width: 10%;
 }
-
 .vue__time-picker{
   width : 49%;
 }
 
-.vue__time-picker input.vue__time-picker-input {
-  width : 98%;
-  background-color : #2C2F3B;
-  border: none;
-  border-radius: 8px;
-  margin: 3px;
-}
 
 #cancelBtn{
   background-color: #FF5C5C;  
   color : #eee;
+  border : none;
+  margin :3px;
+  padding: 8px;
+  border-radius: 8px;
+  width: 40%;
 }
 
 #createBtn{
   background-color: #FF8906;
   color : #eee;
+  border : none;
+  margin :3px;
+  padding: 8px;
+  border-radius: 8px;
+  width: 40%;
 }
-
+.startDatePicker,
+.endDatePicker{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.classification-btn{
+  margin-bottom: 10px;
+}
+.finish-wrap{
+  display: flex;
+  justify-content: space-around;
+}
 </style>
